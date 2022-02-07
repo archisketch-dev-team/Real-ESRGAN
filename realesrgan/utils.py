@@ -226,6 +226,9 @@ class RealESRGANer():
                     int(w_input * outscale),
                     int(h_input * outscale),
                 ), interpolation=cv2.INTER_LANCZOS4)
+        
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
 
         return output, img_mode
 
