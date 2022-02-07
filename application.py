@@ -76,4 +76,4 @@ def inferring_image():
 if __name__ == '__main__':
     print(' [*] Starting application...')
     load_model()
-    application.run(port=8080)
+    application.run(host="0.0.0.0", port=3000)
