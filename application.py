@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, render_template
 import numpy as np
 import cv2
+import time
 
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from realesrgan import RealESRGANer
@@ -66,14 +67,17 @@ def inferring_image():
     image = np.asarray(bytearray(file.read()), dtype="uint8")
     image = cv2.imdecode(image, cv2.IMREAD_COLOR)
 
+    start = time.time()
     sr = super_resolution(image, scale=float(scale_class.split('_')[-1]))
-    filepath = os.path.join(res_path, file.filename.split('.')[0] + '_HR.' + ext)
+    proc_time = round(time.time() - start, 2)
+    filepath = os.path.join(res_path, file.filename.split('.')[0] + '_SR.' + ext)
     cv2.imwrite(filepath, sr)
 
 
-    return render_template('index.html', uploaded=True, filepath=os.path.join('uploads', os.path.basename(filepath)))
+    return render_template('index.html', uploaded=True, filepath=os.path.join('uploads', os.path.basename(filepath)),
+                           proc_time=proc_time, width=sr.shape[1], height=sr.shape[0])
 
 if __name__ == '__main__':
     print(' [*] Starting application...')
     load_model()
-    application.run(port=8080)
+    application.run(host="0.0.0.0", port=3000)

@@ -29,7 +29,10 @@
                             {{ filename }}
                         </span>
                     </div>
-                    <img src="{{ url_for('.static', filename=filepath) }}">
+                    <a href="{{ url_for('.static', filename=filepath) }}" target="_blank">
+                        <img src="{{ url_for('.static', filename=filepath) }}">
+                    </a>
+                    <div class="result_detail">time : {{ proc_time }} sec, resolution(SR) : {{ width }} x {{ height }}</div>
                 {% endif %}
                 </div>
             </div>
