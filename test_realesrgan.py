@@ -29,7 +29,7 @@ class Test_realesrgan(unittest.TestCase):
         model_name = 'RealESRGAN_x4plus'
         model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
         netscale = 4
-        tile = 960
+        tile = 1000
 
         # determine model paths
         model_path = os.path.join('experiments/pretrained_models', model_name + '.pth')
@@ -237,6 +237,18 @@ class Test_realesrgan(unittest.TestCase):
             lr = self.url_to_image(lr_url)
             sr, _ = self.upsampler.enhance(lr, outscale=1.0)
             self.save_results(testIds[i], sr, lr)
+
+    def test_usage_memory(self):
+        lr_url_16 = 'https://archisketch-resources.s3.ap-northeast-2.amazonaws.com/images/X5RUPVA679DE247E6624DDC/1280x720/X5RUPVA679DE247E6624DDC.png'
+        lr_url_4 = 'https://resources.archisketch.com/images/X5G8IYXB1A2FB9205824FC3/1280x960/X5G8IYXB1A2FB9205824FC3.png'
+        lr = self.url_to_image(lr_url_16)
+        
+        cnt = 0
+        while cnt < 10:
+            start = time.time()
+            sr, _ = self.upsampler.enhance(lr, outscale=3.0)
+            print(time.time() - start)
+            cnt += 1
 
 
 if __name__ == '__main__':
