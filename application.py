@@ -19,7 +19,7 @@ application = Flask(__name__)
 
 def load_model():
     global upsampler
-    model_name = 'RealESRGAN_x4plus'
+    model_name = 'finetune_RealESRGANx4plus_pairdata_ARCHI4K'
     model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
     netscale = 4
     tile = 960

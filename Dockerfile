@@ -11,7 +11,7 @@ RUN pip install basicsr
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-COPY . .
+COPY realesrgan experiments/pretrained_models application.py .
 
 RUN python setup.py develop
 
